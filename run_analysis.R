@@ -1,4 +1,33 @@
 # First we will read all relevant data from our data files
+if (!file.exists("X_test.txt")) {
+  cat("The file X_test.txt does not exist under the working folder")
+  stop("Missing file")
+} 
+if (!file.exists("y_test.txt")) {
+  cat("The file y_test.txt does not exist under the working folder")
+  stop("Missing file")
+} 
+if (!file.exists("subject_test.txt")) {
+  cat("The file subject_test.txt does not exist under the working folder")
+  stop("Missing file")
+} 
+if (!file.exists("X_train.txt")) {
+  cat("The file X_train.txt does not exist under the working folder")
+  stop("Missing file")
+} 
+if (!file.exists("y_train.txt")) {
+  cat("The file y_train.txt does not exist under the working folder")
+  stop("Missing file")
+} 
+if (!file.exists("subject_train.txt")) {
+  cat("The file subject_train.txt does not exist under the working folder")
+  stop("Missing file")
+} 
+if (!file.exists("features.txt")) {
+  cat("The file features.txt does not exist under the working folder")
+  stop("Missing file")
+} 
+
 file_test <- read.table("X_test.txt",header=FALSE)
 file_test_labels <- read.table("y_test.txt",header=FALSE)
 file_test_subject <- read.table("subject_test.txt",header=FALSE)
