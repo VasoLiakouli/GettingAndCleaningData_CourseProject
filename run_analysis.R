@@ -27,6 +27,10 @@ if (!file.exists("features.txt")) {
   cat("The file features.txt does not exist under the working folder")
   stop("Missing file")
 } 
+if (!file.exists("activity_labels.txt")) {
+  cat("The file activity_labels.txt does not exist under the working folder")
+  stop("Missing file")
+} 
 
 file_test <- read.table("X_test.txt",header=FALSE)
 file_test_labels <- read.table("y_test.txt",header=FALSE)
@@ -35,6 +39,22 @@ file_train <- read.table("X_train.txt",header=FALSE)
 file_train_labels <- read.table("y_train.txt",header=FALSE)
 file_train_subject <- read.table("subject_train.txt",header=FALSE)
 file_features <- read.table("features.txt",header=FALSE)
+file_activitylabels <- read.table("activity_labels.txt",header=FALSE)
+
+# Add header to file_activitylabels dataframe
+names(file_activitylabels) <- c("activityid","activity")
+
+# Add header to file_train_labels dataframe
+names(file_train_labels) <- c("activityid")
+
+# Add header to file_test_labels dataframe
+names(file_test_labels) <- c("activityid")
+
+# Merge file_test_labels with file_activitylabels based on activityid to get the description of the activity
+test_activities <- merge(file_test_labels, file_activitylabels, by.x="activityid", by.y="activityid")
+
+# Merge file_train_labels with file_activitylabels based on activityid to get the description of the activity
+train_activities <- merge(file_train_labels, file_activitylabels, by.x="activityid", by.y="activityid")
 
 # Create a vector with the names of the columns in the train and test data set
 labels <- file_features[["V2"]]
@@ -48,7 +68,7 @@ names(file_test) <- labels
 
 # Merge test data with labels and subjects from the corresponding test files
 test_full <- file_test
-test_full$label <- file_test_labels$V1
+test_full$activity <- test_activities$activity
 test_full$subject <- file_test_subject$V1
 
 # Assign appropriate names to the columns in file_test
@@ -56,11 +76,12 @@ names(file_train) <- labels
 
 # Merge train data with labels and subjects from the corresponding test files
 train_full <- file_train
-train_full$label <- file_train_labels$V1
+train_full$activity <- train_activities$activity
 train_full$subject <- file_train_subject$V1
 
 # Merge test and train data under one data set
 full_data <- rbind(test_full,train_full)
+
 
 # Calculate Standard Deviation of all columns and store in new dataframe
 standarddev <- sapply(full_data[labels], sd)
@@ -72,6 +93,6 @@ names(statistics) <- c("measurement","standarddeviation","meanvalue")
 # Load data.table library
 library(data.table)
 full_data_table <- as.data.table(full_data)
-meanpergroup <- full_data_table[ , lapply(.SD, mean) , by=c("label", "subject")]
+meanpergroup <- full_data_table[ , lapply(.SD, mean) , by=c("activity", "subject")]
 
-write.table(full_data, file = "full_data.txt",  row.names = FALSE, col.names = TRUE)
+write.table(meanpergroup, file = "meanpergroup.txt",  row.names = FALSE, col.names = TRUE)

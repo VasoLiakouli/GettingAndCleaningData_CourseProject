@@ -7,17 +7,17 @@ The dataset includes the following files:
 
 - 'features.txt': List of all features.
 
-- 'activity_labels.txt': Links the class labels with their activity name.
+- 'activity_labels.txt': Links the activity ids with their activity name.
 
 - 'data_labels.txt': activity labels with the simplified activity label used in the R script.
 
 - 'train/X_train.txt': Training set.
 
-- 'train/y_train.txt': Training labels.
+- 'train/y_train.txt': Training activity ids.
 
 - 'test/X_test.txt': Test set.
 
-- 'test/y_test.txt': Test labels.
+- 'test/y_test.txt': Test activity ids.
 
 The following files are available for the train and test data. Their descriptions are equivalent. 
 
