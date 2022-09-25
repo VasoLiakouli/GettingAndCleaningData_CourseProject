@@ -32,6 +32,7 @@ if (!file.exists("activity_labels.txt")) {
   stop("Missing file")
 } 
 
+# Step 1 - Read all data from relevant files in R
 file_test <- read.table("X_test.txt",header=FALSE)
 file_test_labels <- read.table("y_test.txt",header=FALSE)
 file_test_subject <- read.table("subject_test.txt",header=FALSE)
@@ -41,6 +42,7 @@ file_train_subject <- read.table("subject_train.txt",header=FALSE)
 file_features <- read.table("features.txt",header=FALSE)
 file_activitylabels <- read.table("activity_labels.txt",header=FALSE)
 
+# Step 2 - Assign headers to activity related files
 # Add header to file_activitylabels dataframe
 names(file_activitylabels) <- c("activityid","activity")
 
@@ -50,45 +52,41 @@ names(file_train_labels) <- c("activityid")
 # Add header to file_test_labels dataframe
 names(file_test_labels) <- c("activityid")
 
-# Merge file_test_labels with file_activitylabels based on activityid to get the description of the activity
-test_activities <- merge(file_test_labels, file_activitylabels, by.x="activityid", by.y="activityid")
-
-# Merge file_train_labels with file_activitylabels based on activityid to get the description of the activity
-train_activities <- merge(file_train_labels, file_activitylabels, by.x="activityid", by.y="activityid")
-
 # Create a vector with the names of the columns in the train and test data set
 labels <- file_features[["V2"]]
-
-# Make label names lower and remove spaces and special characters
-labels <- tolower(labels)
-labels <- gsub("[^A-Za-z]+","",labels)
 
 # Assign appropriate names to the columns in file_test
 names(file_test) <- labels
 
-# Merge test data with labels and subjects from the corresponding test files
-test_full <- file_test
-test_full$activity <- test_activities$activity
-test_full$subject <- file_test_subject$V1
-
-# Assign appropriate names to the columns in file_test
+# Assign appropriate names to the columns in file_train
 names(file_train) <- labels
 
+
+# Step 3 -- Identify only measures related to standard deviation and mean from the full set of measures available in train and test files
+# Extract only measurements with standard deviation and mean from labels 
+measures <- labels[grep("[Mm][Ee][Aa][Nn]\\(\\)|[Ss][Tt][Dd]\\(\\)",labels)]
+
+
+# Step 4 -- Extract only measurements that exist under labels (mean and standard deviation) from train and test files
+test_full <- file_test[measures]
+train_full <- file_train[measures]
+
+# Step 5 -- Merge with activity file, subject file and activity labels file
+# Merge test data with labels and subjects from the corresponding test files
+test_full$activityid <- file_test_labels$activityid
+test_full$subject <- file_test_subject$V1
+test_data <- merge(test_full, file_activitylabels, by.x="activityid", by.y="activityid",all.x=TRUE,all.y=FALSE,sort=FALSE)
+
 # Merge train data with labels and subjects from the corresponding test files
-train_full <- file_train
-train_full$activity <- train_activities$activity
+train_full$activityid <- file_train_labels$activityid
 train_full$subject <- file_train_subject$V1
+train_data <- merge(train_full, file_activitylabels, by.x="activityid", by.y="activityid",all.x=TRUE,all.y=FALSE,sort=FALSE)
 
+# Step 6 -- Merge both train and test data created under Step 4 and Step 5 under one complete dataset
 # Merge test and train data under one data set
-full_data <- rbind(test_full,train_full)
+full_data <- rbind(test_data,train_data)
 
-
-# Calculate Standard Deviation of all columns and store in new dataframe
-standarddev <- sapply(full_data[labels], sd)
-meanval <- sapply(full_data[labels], mean)
-statistics <- data.frame(labels,standarddev,meanval)
-names(statistics) <- c("measurement","standarddeviation","meanvalue")
-
+# Step 7 -- Calculate average per subject and activity (label) and store under a new meanpergroup data set
 # Create new data set with average per activity and subject
 # Load data.table library
 library(data.table)

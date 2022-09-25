@@ -3,39 +3,82 @@ The dataset includes the following files:
 
 - 'CodeBook.md'
 
-- 'features_info.txt': Shows information about the variables used on the feature vector.
-
-- 'features.txt': List of all features.
-
-- 'activity_labels.txt': Links the activity ids with their activity name.
-
-- 'data_labels.txt': activity labels with the simplified activity label used in the R script.
-
-- 'train/X_train.txt': Training set.
-
-- 'train/y_train.txt': Training activity ids.
-
-- 'test/X_test.txt': Test set.
-
-- 'test/y_test.txt': Test activity ids.
-
-The following files are available for the train and test data. Their descriptions are equivalent. 
-
-- 'train/subject_train.txt': Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. 
+- 'README.md': describes in high level the steps taken to complete the process and arrive to the meanpergroup.txt file
 
 
 Transformations used: 
 ======
 - Created a set of descriptive names for all activities and stored under labels vector
 - Created a new data frame for train and test data including the subject id and activity type from the corresponding files
-- Renamed the column names for the train and test data sets in order to use the descriptive names 
+- Renamed the column names for the train and test data sets in order to use the measurement names 
 - Merged under one full data set the train and test data sets
-- Calculated average and standard deviation for all activities
-- Calculated average for all activities per activity type and subject
+- Calculated average for all activities per activity and subject
 
-Notes: 
+Measurements that are assessed within the file: 
 ======
-- Features are normalized and bounded within [-1,1].
-- Each feature vector is a row on the text file.
-
-For more information about this dataset contact: activityrecognition@smartlab.ws
+"tBodyAcc-mean()-X"           
+"tBodyAcc-mean()-Y"           
+"tBodyAcc-mean()-Z"           
+"tBodyAcc-std()-X"            
+"tBodyAcc-std()-Y"            
+"tBodyAcc-std()-Z"           
+"tGravityAcc-mean()-X"        
+"tGravityAcc-mean()-Y"        
+"tGravityAcc-mean()-Z"        
+"tGravityAcc-std()-X"         
+"tGravityAcc-std()-Y"         
+"tGravityAcc-std()-Z"        
+"tBodyAccJerk-mean()-X"       
+"tBodyAccJerk-mean()-Y"       
+"tBodyAccJerk-mean()-Z"       
+"tBodyAccJerk-std()-X"        
+"tBodyAccJerk-std()-Y"        
+"tBodyAccJerk-std()-Z"       
+"tBodyGyro-mean()-X"          
+"tBodyGyro-mean()-Y"          
+"tBodyGyro-mean()-Z"          
+"tBodyGyro-std()-X"           
+"tBodyGyro-std()-Y"           
+"tBodyGyro-std()-Z"          
+"tBodyGyroJerk-mean()-X"      
+"tBodyGyroJerk-mean()-Y"      
+"tBodyGyroJerk-mean()-Z"      
+"tBodyGyroJerk-std()-X"       
+"tBodyGyroJerk-std()-Y"       
+"tBodyGyroJerk-std()-Z"      
+"tBodyAccMag-mean()"          
+"tBodyAccMag-std()"           
+"tGravityAccMag-mean()"       
+"tGravityAccMag-std()"        
+"tBodyAccJerkMag-mean()"      
+"tBodyAccJerkMag-std()"      
+"tBodyGyroMag-mean()"         
+"tBodyGyroMag-std()"          
+"tBodyGyroJerkMag-mean()"     
+"tBodyGyroJerkMag-std()"      
+"fBodyAcc-mean()-X"           
+"fBodyAcc-mean()-Y"          
+"fBodyAcc-mean()-Z"           
+"fBodyAcc-std()-X"            
+"fBodyAcc-std()-Y"            
+"fBodyAcc-std()-Z"            
+"fBodyAccJerk-mean()-X"       
+"fBodyAccJerk-mean()-Y"      
+"fBodyAccJerk-mean()-Z"       
+"fBodyAccJerk-std()-X"        
+"fBodyAccJerk-std()-Y"        
+"fBodyAccJerk-std()-Z"        
+"fBodyGyro-mean()-X"          
+"fBodyGyro-mean()-Y"         
+"fBodyGyro-mean()-Z"          
+"fBodyGyro-std()-X"           
+"fBodyGyro-std()-Y"           
+"fBodyGyro-std()-Z"           
+"fBodyAccMag-mean()"          
+"fBodyAccMag-std()"          
+"fBodyBodyAccJerkMag-mean()"  
+"fBodyBodyAccJerkMag-std()"   
+"fBodyBodyGyroMag-mean()"     
+"fBodyBodyGyroMag-std()"      
+"fBodyBodyGyroJerkMag-mean()" 
+"fBodyBodyGyroJerkMag-std()" 
